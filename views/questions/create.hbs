@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Question</title>
+    <style>
+        body {
+            background-color: white; /* Dark background color */
+            color: #fff; /* Light text color */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h2 {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .form-container {
+            background-color: #007FFF;
+            padding-left: 40px;
+            padding-top: 40px;
+            padding-right: 40px;
+            border-radius: 5px;
+            width: 30%;
+            margin: auto;
+            margin-top: 10%;
+        }
+        
+        .form-input {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            color: black;
+            box-sizing: border-box;
+        }
+
+        .btnDiv {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0px;
+        }
+
+        .form-submit {
+            width: 20%;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            background-color: orange; /* Blue button color */
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .form-submit:hover {
+            background-color: green; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Ask a question</h2>
+        <form action="/questions/create" method="POST">
+            <input type="text" name="title" placeholder="Title" class="form-input" required>
+            <textarea  name="description" placeholder="Description" rows="4"  class="form-input" required></textarea>
+           <div class="btnDiv"> <button type="submit" class="form-submit">Post</button> </div> 
+        </form>
+    </div>
+</body>
+</html>

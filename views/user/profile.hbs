@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/styles/main.css"> <!-- Link to your main CSS file -->
+    <style>
+        /* Dark theme styles */
+        .profile-container {
+            background-color: #007FFF; /* Dark container background color */
+            padding: 20px;
+            border-radius: 50px;
+            width: 40%;
+            margin: auto; /* Center horizontally */
+            margin-top: 20vh; /* Center vertically */
+            min-height: 50vh;
+            text-align: center;
+             border: 20px gold solid;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+        }
+
+        .profile-name {
+            font-size: 30px;
+            font-weight: bold;
+            color: gold;
+        }
+
+        .profile-email {
+            font-size: 14px;
+            color: #9c9c9c; /* Light text color */
+            margin-bottom: 10px;
+        }
+
+
+        .profile-counter {
+           display: flex;
+           flex-direction: row;
+           justify-content: space-between;
+           margin-top: 20px;
+           width: 35%;
+           margin-right: auto;
+           margin-left: auto;
+          
+          
+        }
+
+
+        .upload-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 10vh;
+        }
+
+        .custom-file-upload {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            color: #333;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .custom-file-upload input[type="file"] {
+            display: none;
+        }
+
+        button {
+            background-color: orange;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <img class="profile-image" src={{photo_path}} alt="Profile Image">
+        <div class="upload-container">
+            <form action="/uploadImage" method="POST" enctype="multipart/form-data">
+                <label for="file-upload" class="custom-file-upload">
+                    <input id="file-upload" type="file" name="profile_picture" accept="image/*">
+                    Choose ProfilePic
+                </label>
+                <button type="submit">Upload ⬆️</button>
+            </form>
+        </div>
+        <div class="profile-name"> {{user.username}}</div>
+        <div class="profile-email">{{user.email}}</div> <!-- Added email -->
+            <div class="profile-counter">
+                <div> ❓: {{counter.questionCount}}</div>
+           
+                <div>💬: {{counter.answerCount}}</div>
+           
+                <div>Most upvotes 🔼: {{counter.bestRating}}</div>
+             </div>
+    </div>
+</body>
+</html>

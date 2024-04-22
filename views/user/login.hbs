@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* Dark theme styles */
+        .login-container {
+            background-color: #333; /* Dark container background color */
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1); /* White shadow for contrast */
+            width: 400px;
+            margin: auto; /* Center horizontally */
+            margin-top: 10vh; /* Center vertically */
+        }
+
+        .login-container h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-form label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #555; /* Darker border */
+            border-radius: 3px;
+            box-sizing: border-box;
+            background-color: #444; /* Darker background color */
+            color: #fff; /* Light text color */
+        }
+
+        .login-form input[type="submit"] {
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            background-color: #007bff; /* Primary button color */
+            color: #fff; /* Light text color */
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Smooth hover transition */
+        }
+
+        .login-form input[type="submit"]:hover {
+            background-color: #0056b3; /* Darker hover color */
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form class="login-form" action="login" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="{{username}}">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" value="{{password}}">
+            <input type="submit" value="prijava">
+        </form>
+        {{#if error}}
+            <p>{{ error }}</p>
+        {{/if}}
+    </div>
+</body>
+</html>

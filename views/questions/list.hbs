@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question List</title>
+    <link rel="stylesheet" href="/styles/main.css"> <!-- Link to your main CSS file -->
+    <style>
+        /* Dark theme styles */
+        body {
+            background-color: white; /* Dark background color */
+            color: #fff; /* Light text color */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex; /* Use flexbox */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 100vh; /* Full height of the viewport */
+        }
+
+       .question-list {
+            width: 40%; /* Adjust the width as needed */
+            max-height: 80vh; /* Set maximum height to 80% of viewport height */
+            overflow-y: auto; /* Enable vertical scroll if content overflows */
+        }
+
+        .message-container {
+            text-align: center;
+        }
+
+        .message {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .question-container {
+            background-color: #007FFF; 
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1); /* White shadow for contrast */
+            margin-bottom: 20px;
+        }
+
+        .question-title {
+            font-size: 25px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: orange;
+        }
+
+        .question-description {
+            font-size: 16px;
+            font-family: sans-serif;
+            color: #fff; /* Light text color */
+            margin-bottom: 10px;
+        }
+
+        .question-details {
+            font-size: 14px;
+            color: #aaa; /* Gray text color */
+            margin-bottom: 10px;
+        }
+
+        .vote-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .vote-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .upvoteButton {
+            background-color: green; /* Dark button background color */
+            color: #fff; /* Light text color */
+            border: none;
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .downvoteButton {
+            background-color: red; /* Dark button background color */
+            color: #fff; /* Light text color */
+            border: none;
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .delete-button {
+             background-color: #555; /* Dark button background color */
+            color: #fff; /* Light text color */
+            border: none;
+            padding: 5px 10px;
+            margin-right: 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-left: 850px;
+        }
+
+        .vote-score {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff; /* Light text color */
+        }
+        .question-user-info {
+            display: flex; /* Use flexbox for layout */
+            align-items: center; /* Center items vertically */
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .question-user-info img {
+            border-radius: 50%; /* Make the image round */
+            width: 30px; /* Set the width */
+            height: 30px; /* Set the height */
+            object-fit: cover; /* Ensure the image covers the entire area */
+            margin-right: 5px; /* Add some space between the image and the username */
+        }
+
+        .question-user-info span {
+            font-size: 25px; /* Set the font size */
+        }
+
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="question-list">
+            {{#if questions.length}}
+                {{#each questions}}
+                    <div class="question-container">
+                        <a style="text-decoration: none; color: white; font-weight: bold;  " href="user/profile/{{this.postedBy._id}}">
+                        
+                            <div class="question-user-info">
+                                <img src="/images/profile_pictures/users/{{this.postedBy.image}}"   alt="ProfilePic"> 
+                                <span > {{this.postedBy.username}}</span>
+                            </div>
+                        </a>
+                        <div style="border-top: 1px solid #ccc; margin: 10px 0;" class="border-line"></div>
+                        <a style="text-decoration: none;" href="questions/show/{{this._id}}">
+                            <div class="question-title">{{this.title}}</div>
+                            <div class="question-description">{{this.description}}</div>
+                            <div class="question-details">
+                                <span>Created on: {{this.created}}</span>
+                            </div>
+                        </a>
+                        <div class="vote-container">
+                            <div class="vote-buttons">
+                                {{#if this.upvoted}} 
+                                    <button style="border: 1px red solid;" onclick="window.location.href='/questions/upvote/{{this._id}}'" class="upvoteButton">Upvote</button>
+                                {{else}}    
+                                    <button  onclick="window.location.href='/questions/upvote/{{this._id}}'" class="upvoteButton">Upvote</button>
+                                {{/if}}                                          
+                                {{#if this.downvoted}} 
+                                    <button style="border: 1px red solid;" onclick="window.location.href='/questions/downvote/{{this._id}}'" class="downvoteButton">Downvote</button>
+                                {{else}}    
+                                    <button  onclick="window.location.href='/questions/downvote/{{this._id}}'" class="downvoteButton">Downvote</button>
+                                {{/if}}
+                                <div class="vote-score">Score: {{this.score}}</div>
+                                {{#if this.isMine}}
+                                    <button  onclick="window.location.href='/questions/delete/{{this._id}}'" class="delete-button">Delete</button>
+                                {{/if}}
+                            </div>
+                        </div>    
+                    </div>     
+                {{/each}}
+            {{else}}
+                <div class="message-container">
+                    <div class="message">No questions to display.</div>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</body>
+</html>

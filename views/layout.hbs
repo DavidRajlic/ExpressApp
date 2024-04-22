@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{{title}}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    border: #008cba; 
+    color: #fff; 
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar {
+    background-color: #007FFF;
+    overflow: hidden;
+    display: flex; 
+    justify-content: space-between; 
+    padding: 14px 20px;
+    align-items: center; /* Align items vertically */
+    position:fixed;
+    top:0;
+    width:100%;
+  }
+  
+  .navbar a {
+    color: #fff; /* Light link color */
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    margin-right: 40px; /* Add some right margin between links */
+  }
+  
+  .navbar a:first-child {
+    margin-right: auto; /* Push the "Domov" link to the left */
+  }
+  
+  .navbar a:hover {
+    background-color: #555; /* Dark hover background color */
+  }
+
+</style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/"> Home 🏠︎</a> 
+        {{#if session.userId}}
+          <a href='/user/profile'>Profile</a>
+          <a href='/questions/create'>Objavi vprašanje</a>
+          <a href='/questions/hot'>Vroča vprašanja</a>
+          <a href='/user/logout'>Odjava</a>
+        {{else}}
+            <a href="/user/login">Prijava</a>
+            <a href="/user/register">Registracija</a>
+        {{/if}}
+    </div>
+
+<!-- Your content here -->
+{{{body}}}
+</body>
+</html>
