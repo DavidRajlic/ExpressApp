@@ -1,6 +1,7 @@
 var UserModel = require('../models/userModel.js');
 var QuestionModel = require('../models/questionModel.js');
 var AnswerModel = require('../models/answerModel.js');
+var bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
 const { downvote } = require('./answerController.js');
@@ -55,26 +56,41 @@ module.exports = {
     /**
      * userController.create()
      */
-    create: function (req, res) {
-        var user = new UserModel({
-			username : req.body.username,
-			password : req.body.password,
-			email : req.body.email
-        });
 
-        user.save(function (err, user) {
+    create: function (req, res) {
+        // Hashiraj geslo
+        bcrypt.hash(req.body.password, 10, function(err, hashedPassword) {
             if (err) {
-                console.error('Error when creating user:', err);
+                console.error('Error hashing password:', err);
                 return res.status(500).json({
-                    message: 'Error when creating user',
+                    message: 'Error hashing password',
                     error: err
                 });
             }
-
-            //return res.status(201).json(user);
-            return res.redirect('/user/login');
+    
+            // Ustvari nov zapis uporabnika s hashiranim geslom
+            var user = new UserModel({
+                username: req.body.username,
+                password: hashedPassword, // Shranite hashirano geslo
+                email: req.body.email
+            });
+    
+            // Shrani uporabnika v bazo podatkov
+            user.save(function (err, savedUser) {
+                if (err) {
+                    console.error('Error when creating user:', err);
+                    return res.status(500).json({
+                        message: 'Error when creating user',
+                        error: err
+                    });
+                }
+    
+                // V primeru uspešnega shranjevanja uporabnika preusmerite uporabnika na stran za prijavo
+                return res.redirect('/user/login');
+            });
         });
     },
+    
 
     /**
      * userController.update()
@@ -141,13 +157,16 @@ module.exports = {
 
     login: function(req, res, next){
         UserModel.authenticate(req.body.username, req.body.password, function(err, user){
-            if(err || !user){
-                //var err = new Error('Wrong username or paassword');
-                //err.status = 401;
-                //return next(err);
-                console.log("kul")
+            console.log("krneki")
+            if(err){
+                console.log("why not?")
                 return res.render('user/login', { error: 'Wrong username or password', username: req.body.username, password: req.body.password });
             }
+            else if(!user) {
+                
+                return res.render('user/login', { error: `hmm ${user}`, username: req.body.username, password: req.body.password });
+            }
+            console.log("babz")
             req.session.userId = user._id;
             res.redirect('/user/profile');
         });
@@ -167,7 +186,7 @@ module.exports = {
                     return next(err);
                 } else{
                     var counter = {};
-                    counter.questionCount = 0; counter.answerCount = 0; counter.bestRating = 0;
+                    counter.questionCount = 0; counter.answerCount = -1; counter.bestRating = 0;
                     QuestionModel.count({postedBy: user._id}, function(err, count) {
                         if (err) {
                             console.error(err);
