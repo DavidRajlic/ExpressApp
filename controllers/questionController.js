@@ -5,6 +5,7 @@ var answerController = require('./answerController.js');
 const path = require("path");
 const fs = require("fs");
 const moment = require('moment');
+var now = new Date();
 
 /**
  * photoController.js
@@ -38,11 +39,7 @@ module.exports = {
             return res.render('questions/list', data);
         });
     },
-    
 
-    /**
-     * photoController.show()
-     */
     show: function (req, res) {
         var id = req.params.questionId;
 
@@ -170,7 +167,7 @@ module.exports = {
                     }
                 });
             }
-            return res.redirect('/')
+            return res.redirect('/questions/show/' + question._id)
         })
     },
 
@@ -219,54 +216,15 @@ module.exports = {
                     }
                 });
             }
-            return res.redirect('/')
+            return res.redirect('/questions/show/' + question._id)
         })
     },
 
-    /**
-     * photoController.update()
-     */
-    update: function (req, res) {
-        var id = req.params.id;
-
-        PhotoModel.findOne({_id: id}, function (err, photo) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when getting photo',
-                    error: err
-                });
-            }
-
-            if (!photo) {
-                return res.status(404).json({
-                    message: 'No such photo'
-                });
-            }
-
-            photo.name = req.body.name ? req.body.name : photo.name;
-			photo.path = req.body.path ? req.body.path : photo.path;
-			photo.postedBy = req.body.postedBy ? req.body.postedBy : photo.postedBy;
-			photo.views = req.body.views ? req.body.views : photo.views;
-			photo.likes = req.body.likes ? req.body.likes : photo.likes;
-			
-            photo.save(function (err, photo) {
-                if (err) {
-                    return res.status(500).json({
-                        message: 'Error when updating photo.',
-                        error: err
-                    });
-                }
-
-                return res.json(photo);
-            });
-        });
-    },
 
     hot: function(req, res) {
-
         QuestionModel.find()
-        .lean() // Uporaba .lean() za hitrejše pridobivanje, ker ne potrebujemo Mongoose dokumentov
-        .exec(function (err, questions) { // Izvedemo query
+        .populate('postedBy')  
+        .exec(function (err, questions) {// Izvedemo query
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting question.',
@@ -276,14 +234,14 @@ module.exports = {
     
             // Izračunamo 'score' za vsako vprašanje
             questions.forEach(question => {
-                question.score = question.upvotes.length - question.downvotes.length;
+                question.score = question.upvotes.length + question.downvotes.length;
             });
     
             // Razvrstimo vprašanja glede na 'score' od najvišjega do najnižjega
             questions.sort((a, b) => b.score - a.score);
-    
+            
             // Pošljemo podatke v predlogo
-            return res.render('questions/list', { questions: questions });
+            return res.render('questions/hot', { questions: questions });
         });
        
     },
@@ -328,7 +286,7 @@ module.exports = {
                             error: err
                         });
                     }
-                    //return res.json(question);
+
                     return res.redirect('/questions/show/' + question._id);
                 });
             });        

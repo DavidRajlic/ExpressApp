@@ -18,27 +18,27 @@
     overflow: hidden;
     display: flex; 
     justify-content: space-between; 
-    padding: 14px 20px;
-    align-items: center; /* Align items vertically */
+    padding: 20px;
+    align-items: center; 
     position:fixed;
     top:0;
     width:100%;
   }
   
   .navbar a {
-    color: #fff; /* Light link color */
+    color: #fff; 
     text-align: center;
     text-decoration: none;
     font-size: 18px;
-    margin-right: 40px; /* Add some right margin between links */
+    margin-right: 5%;
   }
   
   .navbar a:first-child {
-    margin-right: auto; /* Push the "Domov" link to the left */
+    margin-right: auto; 
   }
   
   .navbar a:hover {
-    background-color: #555; /* Dark hover background color */
+  color: lightcoral; 
   }
 
 </style>
@@ -47,17 +47,16 @@
     <div class="navbar">
         <a href="/"> Home 🏠︎</a> 
         {{#if session.userId}}
-          <a href='/user/profile'>Profile</a>
-          <a href='/questions/create'>Objavi vprašanje</a>
-          <a href='/questions/hot'>Vroča vprašanja</a>
-          <a href='/user/logout'>Odjava</a>
+          <a href='/user/profile'> Profile  👥</a>
+          <a href='/questions/create'>+Add question</a>
+          <a href='/questions/hot'> Hot  🔥</a>
+          <a href='/user/logout'>Logout ↪️</a>
         {{else}}
-            <a href="/user/login">Prijava</a>
-            <a href="/user/register">Registracija</a>
+            <a href="/user/login">Login  🔐</a>
+            <a href="/user/register">Register</a>
         {{/if}}
     </div>
 
-<!-- Your content here -->
 {{{body}}}
 </body>
 </html>

@@ -7,13 +7,14 @@
     <style>
         /* Dark theme styles */
         .login-container {
-            background-color: #333; /* Dark container background color */
+            
+            background-color: #007bff;
             padding: 40px;
             border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1); /* White shadow for contrast */
-            width: 400px;
-            margin: auto; /* Center horizontally */
-            margin-top: 10vh; /* Center vertically */
+            width: 20%;
+            margin: auto; 
+            margin-top: 10%;
+            
         }
 
         .login-container h1 {
@@ -35,26 +36,44 @@
         .login-form input[type="password"] {
             padding: 10px;
             margin-bottom: 20px;
-            border: 1px solid #555; /* Darker border */
+            border: none;
             border-radius: 3px;
-            box-sizing: border-box;
-            background-color: #444; /* Darker background color */
-            color: #fff; /* Light text color */
+            color: black; /* Light text color */
         }
 
         .login-form input[type="submit"] {
             padding: 10px;
             border: none;
             border-radius: 3px;
-            background-color: #007bff; /* Primary button color */
-            color: #fff; /* Light text color */
+            background-color: orange; /* Primary button color */
             cursor: pointer;
+            color: #fff;
             transition: background-color 0.3s ease; /* Smooth hover transition */
         }
 
         .login-form input[type="submit"]:hover {
             background-color: #0056b3; /* Darker hover color */
         }
+
+
+
+@media only screen and (max-width: 1100px) {
+ .login-container {
+    width: 30%;
+ }
+}
+ @media only screen and (max-width: 950px) {
+ .login-container {
+    width: 40%;
+ }
+ }
+
+  @media only screen and (max-width: 700px) {
+ .login-container {
+    margin-top: 30%;
+    width: 50%;
+ }
+}
     </style>
 </head>
 <body>
@@ -65,7 +84,7 @@
             <input type="text" id="username" name="username" value="{{username}}">
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" value="{{password}}">
-            <input type="submit" value="prijava">
+            <input type="submit" value="Login">
         </form>
         {{#if error}}
             <p>{{ error }}</p>

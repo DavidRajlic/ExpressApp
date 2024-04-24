@@ -9,13 +9,13 @@ var questionSchema = new Schema({
     'downvotes': {type: [ {type: Schema.Types.ObjectId, ref: 'user', required: true} ]},
     'postedBy' : {
         type: Schema.Types.ObjectId,
-        ref: 'user', // mogoce users?
+        ref: 'user', 
         required: true,
         immutable: true
     },
     'solution' : {
         type: Schema.Types.ObjectId,
-        ref: 'answer' // mogoce answers?
+        ref: 'answer'
     },
 });
 

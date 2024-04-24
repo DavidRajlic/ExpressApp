@@ -4,28 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Question List</title>
-    <link rel="stylesheet" href="/styles/main.css"> <!-- Link to your main CSS file -->
     <style>
-        /* Dark theme styles */
         body {
-            background-color: white; /* Dark background color */
-            color: #fff; /* Light text color */
+            background-color: white; 
+            color: #fff; 
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
 
         .container {
-            display: flex; /* Use flexbox */
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
-            height: 100vh; /* Full height of the viewport */
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
         }
 
         .question-list {
-            width: 40%; /* Adjust the width as needed */
-            max-height: 80vh; /* Set maximum height to 80% of viewport height */
-            overflow-y: auto; /* Enable vertical scroll if content overflows */
+            width: 40%; 
+            max-height: 80vh; 
+            overflow-y: auto; 
         }
 
         .message-container {
@@ -57,11 +55,31 @@
             margin-bottom: 10px;
         }
 
+        .question-user-info {
+            display: flex; 
+            align-items: center; 
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .question-user-info img {
+            border-radius: 50%; 
+            width: 30px; 
+            height: 30px; 
+            object-fit: cover; 
+            margin-right: 5px; 
+        }
+
+        .question-user-info span {
+            font-size: 20px; 
+            font-weight: bold;
+        }
+
         .question-details {
             display: flex;
             justify-content: space-between;
             font-size: 14px;
-            color: #aaa; /* Gray text color */
+            color: #aaa; 
             margin-bottom: 10px;
         }
 
@@ -110,7 +128,7 @@
         }
 
         .answer {
-            background-color: gray; /* Dark answer background color */
+            background-color: #007FFF;
             padding: 10px;
             border-radius: 5px;
             margin-bottom: 10px;
@@ -118,12 +136,12 @@
 
         .answer-content {
             font-size: 16px;
-            color: #fff; /* Light text color */
+            color: #fff; 
         }
 
         .answer-details {
             font-size: 14px;
-            color: #aaa; /* Gray text color */
+            color: #aaa;
             margin-top: 5px;
         }
 
@@ -134,8 +152,8 @@
         }
 
         .mark-solution-button {
-            background-color: green; /* Dark button background color */
-            color: #fff; /* Light text color */
+            background-color: green;
+            color: #fff; 
             border: none;
             padding: 10px;
             border-radius: 5px;
@@ -143,9 +161,9 @@
         }
 
         .post-answer-container {
-            background-color: gray; /* Dark container background color */
+            background-color: #007FFF; 
             padding: 10px;
-            border: 1px black solid;
+            border: none;
             border-radius: 5px;
             margin-top: 20px;
             width: 60%;
@@ -166,21 +184,23 @@
             margin-bottom: 10px;
             padding: 5px;
             border-radius: 3px;
-            border: 1px solid #555; /* Dark border color */
+            border: 1px solid #555; 
         }
 
         .delete-button {
-            background-color: red; /* Dark button background color */
-            color: #fff; /* Light text color */
+            background-color: red; 
+            color: #fff; 
             border: none;
             padding: 10px;
             border-radius: 5px;
             cursor: pointer;
-            
         }
 
-
-        
+        .deleteDivAnswer {
+            display: flex;
+            justify-content: flex-end;
+            
+        }
 
         .form-submit {
             background-color: orange; /* Dark button background color */
@@ -192,6 +212,27 @@
             align-self: flex-start;
             width: 100px; /* Adjust the width as needed */
         }
+
+     @media only screen and (max-width: 1100px) {
+        .question-list {
+             width: 60%;
+     }
+
+     .post-answer-container {
+        width: 80%;
+     }
+    }
+
+
+     @media only screen and (max-width: 750px) {
+        .question-list {
+             width: 80%;
+     }
+
+     .post-answer-container {
+        width: 90%;
+     }
+    }
     </style>
 </head>
 <body>
@@ -201,7 +242,7 @@
                 <div class="question-title">{{question.title}}</div>
                 <div class="question-description">{{question.description}}</div>
                 <div class="question-details">
-                    <span style="color: gold;">Created by: {{question.postedBy.username}}</span>
+                    <span style="color: gold; font-weight: bold;">Asked by: {{question.postedBy.username}}</span>
                     <span>On: {{question.created}}</span>
                 </div>
                 <div class="vote-container">
@@ -212,7 +253,7 @@
                             <button  onclick="window.location.href='/questions/upvote/{{question._id}}'" class="upvoteButton">Upvote</button>
                         {{/if}}                                          
                         {{#if question.downvoted}} 
-                            <button style="border: 1px red solid;" onclick="window.location.href='/questions/downvote/{{question._id}}'" class="downvoteButton">Downvote</button>
+                            <button style="border: 3px darkred solid;" onclick="window.location.href='/questions/downvote/{{question._id}}'" class="downvoteButton">Downvote</button>
                         {{else}}    
                             <button  onclick="window.location.href='/questions/downvote/{{question._id}}'" class="downvoteButton">Downvote</button>
                         {{/if}}
@@ -231,65 +272,76 @@
             <div class="answer-container">
                 <h2>Answers</h2>
                 {{#if question.solution}}
-                    <div style="border: 3px green solid;" class="answer">
+                    <div style="border: 10px gold solid;" class="answer">
+                         <div class="question-user-info">
+                                <img src="/images/profile_pictures/users/{{question.postedBy.image}}"   alt="ProfilePic"> 
+                                <span > {{question.postedBy.username}} 👑</span>
+                            </div>
                             <div class="answer-content">{{question.solution.content}}</div>
                             <div class="answer-details">
-                                <span>By: {{question.solution.postedBy.username}}</span>
-                                <span>Created on: {{question.solution.created}}</span>
+                                <span>Answered on: {{question.solution.created}}</span>
                             </div>
                             <div class="vote-container">
                                 <div class="vote-buttons">
                                     {{#if question.solution.upvoted}} 
-                                        <button style="border: 1px red solid;" onclick="window.location.href='/answers/upvote/{{question.solution._id}}'" class="upvoteButton">Upvote</button>
+                                        <button style="border: 5px darkgreen solid;" onclick="window.location.href='/answers/upvote/{{question.solution._id}}'" class="upvoteButton">Upvote</button>
                                     {{else}}    
                                         <button onclick="window.location.href='/answers/upvote/{{question.solution._id}}'" class="upvoteButton">Upvote</button>
                                     {{/if}}                                          
                                     {{#if question.solution.downvoted}} 
-                                        <button style="border: 1px red solid;" onclick="window.location.href='/answers/downvote/{{question.solution._id}}'" class="downvoteButton">Downvote</button>
+                                        <button style="border: 3px darkred solid;" onclick="window.location.href='/answers/downvote/{{question.solution._id}}'" class="downvoteButton">Downvote</button>
                                     {{else}}    
                                         <button onclick="window.location.href='/answers/downvote/{{question.solution._id}}'" class="downvoteButton">Downvote</button>
                                     {{/if}}
                                     <div class="vote-score">Score: {{question.solution.score}}</div>
                                 </div>
                             </div>
-                            {{#if question.isMine}} <!-- Only show mark solution button for question creator -->
-                                <div class="mark-solution">
-                                       
+                             <!-- Only show mark solution button for question creator -->
+                               
+                                {{#if question.isMine}}
+                                 <div class="mark-solution">
                                     <button onclick="window.location.href='/questions/show/{{question._id}}/solution/{{question.solution._id}}'" class="mark-solution-button">Unmark as Solution</button>
                                 </div>
-                                 <div class="deleteDiv">
+                                  {{/if}}
+                               
+                                {{#if this.isMine}}
+                                 <div class="deleteDivAnswer">
                                     <button  onclick="window.location.href='/answers/delete/{{this._id}}'" class="delete-button">Delete</button>
                                 </div>
-                                {{else}}
-                               
-                                 
                             {{/if}}
+                                
                         </div>
+                  
                 {{/if}}
                 {{#each answers}}
                     {{#if this.display}}
                         <div class="answer">
+                            <div class="question-user-info">
+                                <img src="/images/profile_pictures/users/{{this.postedBy.image}}"   alt="ProfilePic"> 
+                                <span> {{this.postedBy.username}} </span>
+                            </div>
                             <div class="answer-content">{{this.content}}</div>
                             <div class="answer-details">
-                                <span>By: {{this.postedBy.username}}</span>
-                                <span>Created on: {{this.created}}</span>
+                               
+                                <span>Answered on: {{this.created}}</span>
                             </div>
                             <div class="vote-container">
                                 <div class="vote-buttons">
                                     {{#if this.upvoted}} 
-                                        <button style="border: 1px red solid;" onclick="window.location.href='/answers/upvote/{{this._id}}'" class="upvoteButton">Upvote</button>
+                                        <button style="border: 5px darkgreen solid;" onclick="window.location.href='/answers/upvote/{{this._id}}'" class="upvoteButton">Upvote</button>
                                     {{else}}    
                                         <button onclick="window.location.href='/answers/upvote/{{this._id}}'" class="upvoteButton">Upvote</button>
                                     {{/if}}                                          
                                     {{#if this.downvoted}} 
-                                        <button style="border: 1px red solid;" onclick="window.location.href='/answers/downvote/{{this._id}}'" class="downvoteButton">Downvote</button>
+                                        <button style="border: 3px darkred solid;" onclick="window.location.href='/answers/downvote/{{this._id}}'" class="downvoteButton">Downvote</button>
                                     {{else}}    
                                         <button onclick="window.location.href='/answers/downvote/{{this._id}}'" class="downvoteButton">Downvote</button>
                                     {{/if}}
                                     <div class="vote-score">Score: {{this.score}}</div>
                                     {{#if this.isMine}}
-                                        <button  onclick="window.location.href='/answers/delete/{{this._id}}'" class="delete-button">Delete</button>
+                                       
                                         {{else}}
+                                         
                                     {{/if}}
                                 </div>
                             </div>
@@ -297,12 +349,17 @@
                                 <div class="mark-solution">
                                     <button onclick="window.location.href='/questions/show/{{this.question._id}}/solution/{{this._id}}'" class="mark-solution-button">Mark as Solution</button>
                                 </div>
-                                <div class="deleteDiv">
+                                
+                                 {{else}}
+
+                            {{/if}}   
+
+                             {{#if this.isMine}}  
+                                <div class="deleteDivAnswer">
                                     <button  onclick="window.location.href='/answers/delete/{{this._id}}'" class="delete-button">Delete</button>
                                 </div>
-                                 {{else}}
-                                
                             {{/if}}
+                            
                         </div>
                     {{/if}}
                 {{/each}}

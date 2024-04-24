@@ -164,7 +164,7 @@ module.exports = {
             }
             else if(!user) {
                 
-                return res.render('user/login', { error: `hmm ${user}`, username: req.body.username, password: req.body.password });
+                return res.render('user/login', { error: 'Wrong username or password', username: req.body.username, password: req.body.password });
             }
             console.log("babz")
             req.session.userId = user._id;
